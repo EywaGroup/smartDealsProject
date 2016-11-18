@@ -13,10 +13,13 @@ app.controller('smartDealsController',function($scope,$mdDialog){
   this.pizzas = pizzas;
   var variable;
 
+  
+
   $scope.showAdvanced = function(ev, pizza) {
 
     $mdDialog.show({
-        controller: function DialogController($scope, $mdDialog) {$scope.hide = function() {
+        controller: function DialogController($scope, $mdDialog) {
+          $scope.hide = function() {
           $mdDialog.hide();
       };
 
@@ -28,6 +31,9 @@ app.controller('smartDealsController',function($scope,$mdDialog){
         $mdDialog.hide(answer);
       };
 
+      
+      $scope.pizza = pizza;
+      $scope.mess = "pizza";
       $scope.tab1tittle = pizza.name;
       $scope.ingridients = pizza.ingridients;
       var total = 0;
@@ -39,7 +45,19 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       pizza.price = total;
       $scope.total = total;
 
+      $scope.payAll = function(){
+       
+        for(var i = 0; i < pizza.ingridients.length; i ++){
+            var ingridient = pizza.ingridients[i];
+            $scope.pay(ingridient.cost, ingridient.provider, ingridient.name);
+        }
+      };
+          
+      $scope.pay = function(cost, provider, name){
+          
+      };
     },
+
       templateUrl: 'solution_controller/index',
       parent: angular.element(document.body),
       targetEvent: ev,
@@ -50,7 +68,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
     }, function() {
       $scope.status = 'You cancelled the dialog.';
     });
-};
+  };
 
 
 
