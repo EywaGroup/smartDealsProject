@@ -12,7 +12,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
   this.pizzas = pizzas;
 
 
-  $scope.showAdvanced = function(ev) {
+  $scope.showAdvanced = function(ev, pizza) {
       $mdDialog.show({
         controller: function DialogController($scope, $mdDialog) {
     $scope.hide = function() {
@@ -27,9 +27,15 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       $mdDialog.hide(answer);
     };
 
-    $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
-
+    $scope.payAll = function(){
+            for(int i = 0; i < pizza.ingridients.length; i ++){
+                var ingridient = pizza.ingridients[i];
+                pay(ingridient.amountOfMoney,pizza.providerAddress,pizza.ingridientAmount);
+            }
          };
+           $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
+
+           };
   },
         templateUrl: 'solution_controller/index',
         parent: angular.element(document.body),
