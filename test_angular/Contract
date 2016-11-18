@@ -1,0 +1,60 @@
+pragma solidity ^0.4.0;
+contract SmartDeal {
+struct Provider{
+    uint goodsAmount;
+    uint profit;
+    address addr;
+}
+
+Provider[] providers;
+uint provCount = 0;
+uint totalPay;
+address clientAddr;
+
+event Deposit(address sender,address _provAddress, uint _value);
+
+function init(address[] provAddrs, uint provCount,address mainAcc)
+{
+    clientAddr = mainAcc;
+    for(uint i = 0;i<provCount;i++)
+    {
+        providers[i].profit = 0;
+        providers[i].addr = provAddrs[0];
+        provCount++;
+    }
+}
+
+
+function pay(uint amount, address addr,uint goods)
+{
+    providers[search(addr)].profit += amount;
+    providers[search(addr)].goodsAmount += goods;
+    totalPay += amount;
+    Deposit(clientAddr,addr,amount);
+}
+
+function search(address tmpAddr) returns(uint)
+{
+    for(uint i = 0;i<provCount;i++)
+    {
+        if(providers[i].addr == tmpAddr) return i;
+    }
+}
+
+function contractDone() payable
+{
+    for(uint i = 0;i<provCount;i++)
+    {
+      bool a = providers[i].addr.send(providers[i].profit);
+    }
+}
+
+function contractNotDone() payable
+{
+  bool a = clientAddr.send(totalPay);
+}
+
+
+
+    
+}
