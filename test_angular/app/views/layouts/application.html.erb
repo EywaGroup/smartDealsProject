@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+ 		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+  <title>TestAngular</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+
+</head>
+
+
+<style>
+.text {
+top: 50%; /* Отступ в процентах от верхнего края окна */
+left: 50%; /* Отступ в процентах от левого края окна */
+width: 1160px; /* Ширина блока */
+height: 450px; /* Высота блока */
+position: absolute; /* Абсолютное позиционирование блока */
+margin-top: -350px; /* Отрицательный отступ от верхнего края страницы, должен равняться половине высоты блока со знаком минус */
+margin-left: -560px; /* Отрицательный отступ от левого края страницы, должен равняться половине высоты блока со знаком минус */
+}
+</style>
+
+
+<body ng-app = "smartDeals" ng-controller = "smartDealsController as controller" >
+<div class = "text">
+
+	<md-card md-theme="{{ 'dark-grey'}}">
+<h1>Pizza Exemple</h1>
+</md-card>
+	<div class='md-padding' layout="row" layout-wrap>
+	    <md-card md-theme="{{ 'dark-grey'}}" style="width: 350px;" ng-repeat="pizza in controller.pizzas">
+				<%= image_tag('6.jpg', style: "height: 250px; width: 350px") %>
+
+	      <md-card-content>
+	        <h2>{{pizza.name}}</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+	      </md-card-content>
+	      <div class="md-actions" layout="row" layout-align="end center">
+					<md-button class="md-primary md-raised" ng-init="variable= pizza.id" ng-click="showAdvanced($event)" flex="100" flex-gt-md="auto">
+		 {{variable}}
+	 </md-button>
+	      </div>
+
+	    </md-card>
+	  </div>
+</div>
+
+
+
+
+<%=yield%>
+
+</body>
+</html>

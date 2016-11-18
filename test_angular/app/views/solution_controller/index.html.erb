@@ -1,0 +1,15 @@
+<div ng-app = "smartDeals" ng-controller = "smartDealsController as controller" >
+  <form>
+    <div>
+      <div class="md-dialog-content">
+        <h2>name {{controller.pizzas[0].name}}</h2>
+        <h2>description {{controller.pizzas[0].description}}</h2>
+        <h2>price {{controller.pizzas[0].price}}</h2>
+    </div>
+
+    <div layout="row">
+      <span flex></span>
+      <md-button ng-click="hide()">Hide</md-button>
+    </div>
+  </form>
+</div>
