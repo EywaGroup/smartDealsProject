@@ -7,7 +7,7 @@ app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
   $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
 });
-app.controller('smartDealsController',function($scope,$mdDialog,$mdMedia){
+app.controller('smartDealsController',function($scope,$mdDialog){
   var web3 = new Web3();
   this.pizzas = pizzas;
   var variable;
