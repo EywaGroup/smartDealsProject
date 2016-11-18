@@ -38,19 +38,17 @@ margin-left: -560px; /* Отрицательный отступ от левог�
 </md-card>
 	<div class='md-padding' layout="row" layout-wrap>
 	    <md-card md-theme="{{ 'dark-grey'}}" style="width: 350px;" ng-repeat="pizza in controller.pizzas">
-            <md-card>
-                <img src="{{pizza.image}}" class="md-card-image" alt="image caption" >
-            </md-card>
-            
-            <md-card-content>
-            <h2>{{pizza.name}}</h2>
-            		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-            </md-card-content>
+				<%= image_tag('6.jpg', style: "height: 250px; width: 350px") %>
 
-            <div class="md-actions" layout="row" layout-align="end center">
-            	<md-button id="{{pizza.id}}" class="md-primary md-raised" ng-click="showAdvanced($event)" flex="100" flex-gt-md="auto">{{pizza.id}}
-               </md-button>
-            </div>
+	      <md-card-content>
+	        <h2>{{pizza.name}}</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+	      </md-card-content>
+	      <div class="md-actions" layout="row" layout-align="end center">
+					<md-button class="md-primary md-raised" ng-init="variable= pizza.id" ng-click="showAdvanced($event)" flex="100" flex-gt-md="auto">
+		 {{variable}}
+	 </md-button>
+	      </div>
 
 	    </md-card>
 	  </div>
