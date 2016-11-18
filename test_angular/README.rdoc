@@ -5,6 +5,9 @@ https://github.com/axic/ethereum-tokenescrow
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
+Start Geth:
+geth --testnet --rpc --ipcapi "admin,db,miner,net,shh,personal,web3" --rpcapi "admin,eth,personal,web3,miner,net"  --testnet --rpccorsdomain "*" console
+
 Things you may want to cover:
 
 * Ruby version

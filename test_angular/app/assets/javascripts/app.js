@@ -8,9 +8,16 @@ app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
 });
 app.controller('smartDealsController',function($scope,$mdDialog){
-  var web3 = new Web3();
+  
   this.pizzas = pizzas;
-  var variable;
+  var web3 = new Web3();
+  web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+  var contractAddress = '0x69d7d5381944bf18e207917708a151aca7dca2d0';
+//event Deposit(address sender,address _provAddress, uint _value);
+
+  var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':['0x' + 
+    web3.sha3('Deposit(string,string,uint256)')]});
+
 
 
   $scope.showAdvanced = function(ev) {
@@ -27,6 +34,9 @@ app.controller('smartDealsController',function($scope,$mdDialog){
     $scope.answer = function(answer) {
       $mdDialog.hide(answer);
     };
+
+
+    
   },
         templateUrl: 'solution_controller/index',
         parent: angular.element(document.body),
@@ -50,33 +60,24 @@ app.controller('smartDealsController',function($scope,$mdDialog){
         price: 400,
         description: 'Very good pizza!',
         id: 1,
-        images: [
-          "assets/images/1.png",
-          "assets/images/1.png",
-          "assets/images/1.png"
-        ],
+        image:
+          "assets/1.png",
       },
       {
         name: 'Quattro Formaggi',
         price: 300,
         description: 'Very good pizza!',
         id: 2,
-        images: [
-          "assets/images/1.png",
-          "assets/images/1.png",
-          "assets/images/1.png"
-        ],
+        image:
+          "assets/1.png",
       },
       {
         name: 'Maltija (Maltese)',
         price: 300,
         description: 'Very good pizza!',
         id: 3,
-        images: [
-          "assets/images/1.jpg",
-          "assets/images/1.jpg",
-          "assets/images/1.jpg"
-        ],
+       image:
+          "assets/1.png",
       }
     ];
 })();
