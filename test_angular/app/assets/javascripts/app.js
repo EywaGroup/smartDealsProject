@@ -10,7 +10,6 @@ app.config(function($mdThemingProvider) {
 app.controller('smartDealsController',function($scope,$mdDialog){
   var web3 = new Web3();
   this.pizzas = pizzas;
-  var variable;
 
 
   $scope.showAdvanced = function(ev) {
@@ -27,12 +26,15 @@ app.controller('smartDealsController',function($scope,$mdDialog){
     $scope.answer = function(answer) {
       $mdDialog.hide(answer);
     };
+
+    $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
+
+         };
   },
         templateUrl: 'solution_controller/index',
         parent: angular.element(document.body),
         targetEvent: ev,
         clickOutsideToClose:true,
-        fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
       })
       .then(function(answer) {
         $scope.status = 'You said the information was "' + answer + '".';
@@ -40,6 +42,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
         $scope.status = 'You cancelled the dialog.';
       });
     };
+
 
 
 
