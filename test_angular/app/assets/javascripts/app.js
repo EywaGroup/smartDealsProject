@@ -10,106 +10,41 @@ app.config(function($mdThemingProvider) {
 app.controller('smartDealsController',function($scope,$mdDialog){
   
   this.pizzas = pizzas;
-
-
-//geth --rpc --rpcapi admin,eth,personal,miner  --testnet --rpccorsdomain="*" console
-//----------------------------------------------------------------------------------------
-    
-     // var abi =  [{"constant":false,
-     //  "inputs":
-     //    [{"name":"amount","type":"uint256"},
-     //     {"name":"addr","type":"address"},
-     //     {"name":"goods","type":"uint256"}],
-     //     "name":"pay",
-     //     "outputs":[],
-     //     "payable":false,
-     //     "type":"function"},
-
-     //     {"constant":false,
-     //     "inputs":[],
-     //     "name":"contractDone",
-     //     "outputs":[],
-     //     "payable":true,
-     //     "type":"function"},
-
-     //     {"constant":false,
-     //     "inputs":[],
-     //     "name":"contractNotDone",
-     //     "outputs":[],
-     //     "payable":true,
-     //     "type":"function"},
-
-     //     {"constant":false,
-     //     "inputs":
-     //     [{"name":"tmpAddr",
-     //       "type":"address"}],
-     //       "name":"search",
-     //       "outputs":
-     //       [{"name":"",
-     //       "type":"uint256"}],
-     //       "payable":false,
-     //       "type":"function"},
-
-     //     {"constant":false,
-     //       "inputs":
-     //       [{"name":"provAddrs",
-     //       "type":"address[]"},
-     //       {"name":"provCount",
-     //       "type":"uint256"},
-     //       {"name":"mainAcc",
-     //       "type":"address"}],
-     //       "name":"init",
-     //       "outputs":[],
-     //       "payable":false,
-     //       "type":"function"},
-
-     //      {"anonymous":false,
-     //       "inputs":
-     //       [{"indexed":false,
-     //       "name":"sender",
-     //       "type":"address"},
-     //        {"indexed":false,
-     //        "name":"_provAddress",
-     //        "type":"address"},
-     //        {"indexed":false,
-     //        "name":"_value",
-     //        "type":"uint256"}],
-     //       "name":"Deposit",
-     //       "type":"event"}];
-     //event Deposit(address sender,address _provAddress, uint _value);
-     
-
-     $scope.testMethod = function(){
-        alert($scope.myFunds + "\n" + contract.address + "\n");
-     };
-
-     
-
+  var Web3 = require('web3');
+  var web3 = new Web3();
+  web3.setProvider(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+  var accounts = web3.eth.accounts;
 //----------------------------------------------------------------------------------------
   $scope.showAdvanced = function(ev) {
       $mdDialog.show({
         controller: function DialogController($scope, $mdDialog) {
 
+    // $scope.textName = "";
+    // $scope.textModel = "";
     $scope.hide = function() {
       $mdDialog.hide();
     };
 
+    $scope.$watch("contractName",
+    function(newValue, oldValue) {
+      if(newValue != oldValue) {
+      console.log(newValue);
+      $scope.textName = newValue;
+    }
+    }, true);
+
     $scope.deploy = function(answer) {
-     var Web3 = require('web3');
-     var web3 = new Web3();
-     web3.setProvider(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
-     var accounts = web3.eth.accounts;
-     var source = "contract Smart { function go(uint i) returns(uint) { return i*10; }}";
+     var source = $scope.text;
      var compiled = web3.eth.compile.solidity(source);
      console.log(compiled);
      $scope.myToken = web3.eth.coinbase;
      console.log(web3.personal.unlockAccount($scope.myToken,"Dtrnjh2917"));
-     var abi = compiled.Smart.info.abiDefinition;
+     var abi = compiled[$scope.textName].info.abiDefinition;
      var con = web3.eth.contract(abi);
      console.log(JSON.stringify(abi));
      var smartContract = con.new({
         from: accounts[0],
-        data: compiled.Smart.code, gas: 2000000},
+        data: compiled[$scope.textName].code, gas: 2000000},
         function(error, contract) {
           if(!error) {
             if(!contract.address){
@@ -172,3 +107,4 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       }
     ];
 })();
+app.$inject = ['$scope'];
