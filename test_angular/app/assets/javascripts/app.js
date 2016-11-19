@@ -34,8 +34,8 @@ app.controller('smartDealsController',function($scope,$mdDialog){
 
      $scope.testMethod = function(){
           
-          var bal = web3.fromWei(contract.balance);
-//web3.eth.getBalance('0xb4a874d01c1234be5cd6b2a562b06892ed5d500c')
+          var bal = web3.fromWei(web3.eth.getBalance('0xb4a874d01c1234be5cd6b2a562b06892ed5d500c'));
+
         alert(bal);
 
      };
@@ -49,7 +49,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       web3.personal.unlockAccount($scope.myToken,"qbasik007");
         var hash = {from: $scope.myToken,to: contractAddress,value: web3.toWei(amountOfMoney, "ether")};
         
-        web3.eth.sendTransaction(hash);        
+       // web3.eth.sendTransaction(hash);        
         var res = contract.pay(amountOfMoney,providerAddress,ingridientAmount).call();;
         alert(1234);  
      };
