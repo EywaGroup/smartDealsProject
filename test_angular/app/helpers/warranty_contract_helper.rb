@@ -1,0 +1,2 @@
+module WarrantyContractHelper
+end

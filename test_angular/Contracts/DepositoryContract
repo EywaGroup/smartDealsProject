@@ -1,0 +1,73 @@
+pragma solidity ^0.4.0;
+contract SmartDeal {
+address owner;
+
+Provider provider;
+uint provCount = 0;
+
+uint amnt = 0;
+mapping(address => uint) refunds;
+
+event Deposit(address sender,address _provAddress, uint _value);
+
+modifier onlyOwner
+{
+    if(msg.sender != owner) throw;
+    _;
+}
+    
+struct Provider
+{
+    uint goodsAmount;
+    address addr;
+}
+
+function() payable 
+{
+     owner = msg.sender;
+     amnt += msg.value;
+}
+
+function returnState() returns(uint)
+{
+    return amnt;
+}
+
+function init(address provAddrs, uint count) 
+{
+        owner = msg.sender;
+        provider.addr = provAddrs;
+        provCount++;
+}
+
+
+function pay(uint goods) onlyOwner payable returns(uint) 
+{
+    provider.goodsAmount += goods;
+}
+
+function checkBalance() returns (uint)
+{
+    return this.balance;
+}
+
+function checkGoods() returns (uint)
+{
+    return provider.goodsAmount;
+}
+
+function contractDone() onlyOwner payable returns(bool)
+{
+   bool a = provider.addr.send(amnt);
+    selfdestruct(msg.sender);
+    return a;
+}
+
+function contractNotDone()onlyOwner payable 
+{
+ selfdestruct(msg.sender);
+}
+
+
+    
+}
