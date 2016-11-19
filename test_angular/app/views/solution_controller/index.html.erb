@@ -39,14 +39,11 @@
           More on Wikipedia
         </md-button>
         <span flex></span>
-        <div ng-init = "amount = 1" ></div>
-        <div ng-init = "addr = '0x9b423036f2324445ab650b4ef883d0d6ede53ca3'" ></div>
-        <md-button ng-click="initP()" >
-          Init contract
+        <md-button ng-click="deploy('answer')" >
+          Deploy contract
         </md-button>
-        <div  ng-init = "ingredients = 2" ></div>
-        <md-button ng-init = "m = 1" ng-click="pay(m, addr, ingredients)" style="margin-right:20px;" >
-          Pay
+        <md-button ng-click="cancel()" style="margin-right:20px;" >
+          Cancel
         </md-button>
       </md-dialog-actions>
     </form>

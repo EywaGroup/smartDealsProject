@@ -83,35 +83,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
         alert($scope.myFunds + "\n" + contract.address + "\n");
      };
 
-     $scope.deployContract = function() {
-       var Web3 = require('web3');
-       var web3 = new Web3();
-       var eth = web3.eth;
-       web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
-       var accounts = eth.accounts;
-       var source = "contract Smart { function go(uint i) returns(uint) { return i*10; }}";
-       var compiled = eth.comile.solidity(source);
-       $scope.myToken = eth.coinbase;
-       web3.personal.unlockAccount($scope.myToken,"Dtrnjh2917");
-       var abi = compiled.Smart.info.abiDefinition;
-       var con = eth.contract(abi);
-       var smartContract = con.new({
-          from: accounts[0],
-          data: smartContract.Smart.code, gas: 2000000},
-          function(error, contract) {
-            if(!error) {
-              if(!contract.address){
-                console.log("Sended, please wait. Transaction: " +  contract.transactionHash);
-              } else {
-                console.log("Contract mined! Address: " + contract.address);
-                console.log(contract);
-              }
-            } else {
-              console.log(error);
-            }
-          }
-       });
-     };
+     
 
 //----------------------------------------------------------------------------------------
   $scope.showAdvanced = function(ev) {
@@ -122,38 +94,40 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       $mdDialog.hide();
     };
 
+    $scope.deploy = function(answer) {
+     var Web3 = require('web3');
+     var web3 = new Web3();
+     web3.setProvider(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
+     var accounts = web3.eth.accounts;
+     var source = "contract Smart { function go(uint i) returns(uint) { return i*10; }}";
+     var compiled = web3.eth.compile.solidity(source);
+     console.log(compiled);
+     $scope.myToken = web3.eth.coinbase;
+     console.log(web3.personal.unlockAccount($scope.myToken,"Dtrnjh2917"));
+     var abi = compiled.Smart.info.abiDefinition;
+     var con = web3.eth.contract(abi);
+     console.log(JSON.stringify(abi));
+     var smartContract = con.new({
+        from: accounts[0],
+        data: compiled.Smart.code, gas: 2000000},
+        function(error, contract) {
+          if(!error) {
+            if(!contract.address){
+              console.log("Sended, please wait. Transaction: " +  contract.transactionHash);
+            } else {
+              console.log("Contract mined! Address: " + contract.address);
+              console.log(contract);
+            }
+          } else {
+            console.log(error);
+          }
+        });
+     $mdDialog.hide(answer);
+    };
+
     $scope.cancel = function() {
-      $mdDialog.cancel();
+      $mdDialog.hide();
     };
-
-    $scope.answer = function(answer) {
-      $mdDialog.hide(answer);
-    };
-
-           // var web3 = new Web3();
-     // var eth = web3.eth;
-     // web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
-     // var accounts = eth.accounts;
-     // web3.personal.unlockAccount(eth.coinbase,"Dtrnjh2917");
-     // var source = 'pragma solidity ^0.4.0; contract SmartDeal {  struct Provider{   uint goodsAmount;    uint profit;    address addr; } Provider[] providers; uint provCount = 0; uint totalPay; address clientAddr; event Deposit(address sender,address _provAddress, uint _value); function init(address[] provAddrs, uint provCount,address mainAcc) {clientAddr = mainAcc; for(uint i = 0;i<provCount;i++) {providers[i].profit = 0; providers[i].addr = provAddrs[0]; provCount++;}} function pay(uint amount, address addr,uint goods) { providers[search(addr)].profit += amount; providers[search(addr)].goodsAmount += goods; totalPay += amount; Deposit(clientAddr,addr,amount); } function search(address tmpAddr) returns(uint) { for(uint i = 0;i<provCount;i++) { if(providers[i].addr == tmpAddr) return i; }} function contractDone() payable { for(uint i = 0;i<provCount;i++) { bool a = providers[i].addr.send(providers[i].profit); }} function contractNotDone() payable {bool a = clientAddr.send(totalPay);}}'
-     // var compiled = web3.eth.compile.solidity(source);
-     //  var code = compiled.Multiply7.code;
-     //  var abi = compiled.Multiply7.info.abiDefinition;
-
-     //  web3.eth.contract(abi).new({from: "0xae4af6288b97b7e1ce9b3a343ed17aebe6e2c8f3", data: code}, function (err, contract) {
-     //  if (!err && contract.address)
-     //    console.log("deployed on:", contract.address);
-     //  });
-  
-
-    $scope.pay = function(){
-      contract.pay({"amount":1, "addr": 0x9b423036f2324445ab650b4ef883d0d6ede53ca3, "goods": 1})
-    };
-     $scope.contractDone = function(){
-        contract.contractDone();
-     }; 
-
-    
   },
         templateUrl: 'solution_controller/index',
         parent: angular.element(document.body),
