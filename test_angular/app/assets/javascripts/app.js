@@ -19,8 +19,6 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       $mdDialog.show({
         controller: function DialogController($scope, $mdDialog) {
 
-    // $scope.textName = "";
-    // $scope.textModel = "";
     $scope.hide = function() {
       $mdDialog.hide();
     };
@@ -34,17 +32,27 @@ app.controller('smartDealsController',function($scope,$mdDialog){
     }, true);
 
     $scope.deploy = function(answer) {
-     var source = $scope.text;
+
+    // $scope.NameFirst
+    // $scope.NameSecond;
+    // $scope.AddressOne;
+    // $scope.contractText;
+    $scope.Password = "Dtrnjh2917";
+    // $scope.AdressTwo
+    // $scope.Volume
+    // $scope.Time
+    // $scope.Cost
+     var source = 'contract SmartDealDoubleKey { struct Provider { uint goodsAmount; address addr; } address owner; Provider provider; uint provCount = 0; uint amnt = 0; bool custConfirmed = false; bool providerConfirmed = false; event Deposit(address sender,address _provAddress, uint _value); modifier confirmed { if(!(custConfirmed && providerConfirmed)) throw; _; } modifier onlyProvider { if(msg.sender != owner) throw; _; } modifier onlyCustomer { if(msg.sender != provider.addr) throw; _; } function customerConfirm() onlyCustomer { custConfirmed = true; } function providerConfirm() onlyProvider { providerConfirmed = true; } function() payable  { owner = msg.sender; amnt += msg.value; } function warranty(uint warrAmount) returns(bool) { if (amnt>=warrAmount) return true; else return false; } function returnState() returns(uint) { return amnt; } function init(address provAddrs, uint count)  { owner = msg.sender; provider.addr = provAddrs; provCount++;} function pay(uint goods) onlyCustomer payable returns(uint) { provider.goodsAmount += goods;} function checkBalance() returns (uint) { return this.balance; } function contractDone() confirmed payable returns(bool) { bool a = provider.addr.send(amnt); selfdestruct(msg.sender); return a;} function contractNotDone()confirmed payable {selfdestruct(msg.sender);}}';
      var compiled = web3.eth.compile.solidity(source);
      console.log(compiled);
      $scope.myToken = web3.eth.coinbase;
-     console.log(web3.personal.unlockAccount($scope.myToken,"Dtrnjh2917"));
-     var abi = compiled[$scope.textName].info.abiDefinition;
+     console.log(web3.personal.unlockAccount($scope.myToken,$scope.Password));
+     var abi = compiled.SmartDealDoubleKey.info.abiDefinition;
      var con = web3.eth.contract(abi);
      console.log(JSON.stringify(abi));
      var smartContract = con.new({
         from: accounts[0],
-        data: compiled[$scope.textName].code, gas: 2000000},
+        data: compiled.SmartDealDoubleKey.code, gas: 2000000},
         function(error, contract) {
           if(!error) {
             if(!contract.address){
@@ -107,4 +115,3 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       }
     ];
 })();
-app.$inject = ['$scope'];

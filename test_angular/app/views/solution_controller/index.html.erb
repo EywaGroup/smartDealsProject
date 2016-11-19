@@ -1,30 +1,67 @@
 <div ng-app = "smartDeals" ng-controller = "smartDealsController as controller" >
-  <md-dialog aria-label="Mango (Fruit)">
+  <md-dialog aria-label="Mango (Fruit)" style="width:610px;">
     <form>
       <md-toolbar>
         <div class="md-toolbar-tools">
-          <h2>Mango (Fruit)</h2>
+          <h2>Contract onde</h2>
           <span flex></span>
           <md-button class="md-icon-button" ng-click="cancel()">
             <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
           </md-button>
         </div>
       </md-toolbar>
-      <md-dialog-content style="max-width:800px;max-height:810px; ">
+
+
+      <md-dialog-content style="max-width:810px;max-height:810px; ">
         <md-tabs md-dynamic-height md-border-bottom>
           <md-tab label="one">
             <md-content class="md-padding">
-              <h1 class="md-display-2">Tab One</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
-              <div >{{contractStatus}}</div>
-              <div>{{myFunds}}</div>
+            <h1 class="md-display-2">Tab One</h1>
+            <form name="contractOne">
+            
+              <md-input-container class="md-block" flex-gt-sm>
+
+                <label>NameFirst</label>
+                <input md-maxlength="30" required name="name1" ng-model="NameFirst" />
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>NameSecond</label>
+                <input md-maxlength="30" required name="name2" ng-model="NameSecond" />
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>AddresOne</label>
+                <input md-maxlength="30" required name="adress1" ng-model="AddressOne" />
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>AdresTwo</label>
+                <input md-maxlength="30" required name="adress2" ng-model="AdressTwo" />
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Volume</label>
+                <input md-maxlength="30" required name="volume" ng-model="Volume" />
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Time</label>
+                <input md-maxlength="30" required name="time" ng-model="Time" />
+              </md-input-container>
+
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Cost</label>
+                <input md-maxlength="30" required name="cost" ng-model="Cost" />
+              </md-input-container>
+
+  
+            </form>
             </md-content>
           </md-tab>
           <md-tab label="two">
             <md-content class="md-padding">
               <h1 class="md-display-2">Tab Two</h1>
-              <input type="text" ng-model="contractName"/>
-              <textarea ng-model="contractText">put contract here</textarea>
             </md-content>
           </md-tab>
           <md-tab label="three">
@@ -37,15 +74,12 @@
       </md-dialog-content>
 
       <md-dialog-actions layout="row">
-        <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
-          More on Wikipedia
-        </md-button>
         <span flex></span>
-        <md-button ng-click="deploy('answer')" >
-          Deploy contract
-        </md-button>
         <md-button ng-click="cancel()" style="margin-right:20px;" >
           Cancel
+        </md-button>
+        <md-button class="md-primary md-raised" ng-click="deploy('answer')" >
+          Confirm
         </md-button>
       </md-dialog-actions>
     </form>
