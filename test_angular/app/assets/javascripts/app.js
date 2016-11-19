@@ -10,13 +10,6 @@ app.config(function($mdThemingProvider) {
 app.controller('smartDealsController',function($scope,$mdDialog){
   
   this.pizzas = pizzas;
-  var web3 = new Web3();
-  web3 = new Web3(new Web3.providers.HttpProvider("http://127.0.0.1:8545"));
-  var contractAddress = '0x69d7d5381944bf18e207917708a151aca7dca2d0';
-//event Deposit(address sender,address _provAddress, uint _value);
-
-  var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':['0x' + 
-    web3.sha3('Deposit(string,string,uint256)')]});
 
 
 //geth --rpc --rpcapi admin,eth,personal,miner  --testnet --rpccorsdomain="*" console
@@ -25,52 +18,44 @@ app.controller('smartDealsController',function($scope,$mdDialog){
      var abi =  [{"constant":false,"inputs":[{"name":"amount","type":"uint256"},{"name":"addr","type":"address"},{"name":"goods","type":"uint256"}],"name":"pay","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractDone","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"tmpAddr","type":"address"}],"name":"search","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address[]"},{"name":"provCount","type":"uint256"},{"name":"mainAcc","type":"address"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
      var Web3 = require('web3');
      var web3 = new Web3();
-     
-
+     var eth = web3.eth;
      web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
-     var accounts = web3.eth.accounts;
+     var accounts = eth.accounts;
      $scope.accounts = accounts;
+    //event Deposit(address sender,address _provAddress, uint _value);
 
-     var contractAddress = "0x87a712ce7e30c848f78b1a4f0629f31b0e5f5db1";
-     var contract;
-
-     $scope.myToken = accounts[0];
-     $scope.myFunds = web3.fromWei(web3.eth.getBalance(web3.eth.coinbase),"ether");
-     web3.personal.unlockAccount($scope.myToken,"qbasik007");
       
+
+     var contractAddress = '0x87a712ce7e30c848f78b1a4f0629f31b0e5f5db1';
+     var Myco = web3.eth.contract(abi);
+     var contract = Myco.at(contractAddress);
+     var filter = web3.eth.filter({fromBlock:0, toBlock: 'latest', address: contractAddress, 'topics':['0x' + 
+     web3.sha3('pay(uint256,uint256,uint256)')]});
      
-     contract = web3.eth.contract(abi).at(contractAddress);
+     $scope.myToken = eth.coinbase;
+     $scope.myFunds = web3.fromWei(eth.getBalance(eth.coinbase),"ether");
+     web3.personal.unlockAccount($scope.myToken,"Dtrnjh2917");
 
+     var source = "" + 
+    "contract test {\n" +
+    "   function multiply(uint a) returns(uint d) {\n" +
+    "       return a * 7;\n" +
+    "   }\n" +
+    "}\n";
+
+      var compiled = web3.eth.compile.solidity(source);
+      
+    
      $scope.testMethod = function(){
-
+        console.log(compiled); 
         alert($scope.myFunds + "\n" + contract.address + "\n");
-
      };
-
-     $scope.initProviders = function(providersAddresses,providersAmount){
-      contract.create();
-      contract.init(providersAddresses,providersAmount,$scope.myToken);
-
-     }; 
-     $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
-
-        eth.sendTransaction({from:$scope.myToken,to:contractAddress,value: web3.toWei(amountOfMoney, "ether")})
-        contract.pay(amountOfMoney,providerAddress,ingridientAmount);
-
-     };
-     $scope.contractDone = function(){
-
-        contract.contractDone();
-        
-     }; 
-
-
-
 
 //----------------------------------------------------------------------------------------
   $scope.showAdvanced = function(ev) {
       $mdDialog.show({
         controller: function DialogController($scope, $mdDialog) {
+
     $scope.hide = function() {
       $mdDialog.hide();
     };
@@ -83,6 +68,14 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       $mdDialog.hide(answer);
     };
 
+    $scope.initProviders = function(){
+      var a = 2;
+      var adr = ["0x9b423036f2324445ab650b4ef883d0d6ede53ca3", "0x75a3c71753c5E9f83c64a028849410f04cF85d95"];
+      contract.init(adr, a, $scope.myToken);
+    };
+     $scope.contractDone = function(){
+        contract.contractDone();
+     }; 
 
     
   },

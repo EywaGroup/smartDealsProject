@@ -16,12 +16,13 @@
             <md-content class="md-padding">
               <h1 class="md-display-2">Tab One</h1>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla venenatis ante augue. Phasellus volutpat neque ac dui mattis vulputate. Etiam consequat aliquam cursus. In sodales pretium ultrices. Maecenas lectus est, sollicitudin consectetur felis nec, feugiat ultricies mi.</p>
+              <div >{{contractStatus}}</div>
+              <div>{{myFunds}}</div>
             </md-content>
           </md-tab>
           <md-tab label="two">
             <md-content class="md-padding">
               <h1 class="md-display-2">Tab Two</h1>
-              <div >{{contractStatus}}</div>
             </md-content>
           </md-tab>
           <md-tab label="three">
@@ -38,11 +39,14 @@
           More on Wikipedia
         </md-button>
         <span flex></span>
-        <md-button ng-click="answer('not useful')" >
-          Not Useful
+        <div ng-init = "amount = 1" ></div>
+        <div ng-init = "addr = '0x9b423036f2324445ab650b4ef883d0d6ede53ca3'" ></div>
+        <md-button ng-click="initProviders()" >
+          Init contract
         </md-button>
-        <md-button ng-click="answer('useful')" style="margin-right:20px;" >
-          Useful
+        <div  ng-init = "ingredients = 2" ></div>
+        <md-button ng-init = "m = 1" ng-click="pay(m, addr, ingredients)" style="margin-right:20px;" >
+          Pay
         </md-button>
       </md-dialog-actions>
     </form>
