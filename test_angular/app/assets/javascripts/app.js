@@ -12,17 +12,18 @@ app.controller('smartDealsController',function($scope,$mdDialog){
  
   this.pizzas = pizzas;
     var variable;
-    var abi = [{"constant":false,"inputs":[{"name":"amount","type":"uint256"},{"name":"addr","type":"address"},{"name":"goods","type":"uint256"}],"name":"pay","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"tmpAddr","type":"address"}],"name":"search","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address[]"},{"name":"provCount","type":"uint256"},{"name":"mainAcc","type":"address"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
-     var Web3 = require('web3');
-     var web3 = new Web3();
+    //Double-key ABI:
+    //[{"constant":false,"inputs":[],"name":"customerConfirm","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address"},{"name":"count","type":"uint256"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"returnState","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"providerConfirm","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"goods","type":"uint256"}],"name":"pay","outputs":[{"name":"","type":"uint256"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"warrAmount","type":"uint256"}],"name":"warranty","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"checkBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"payable":true,"type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
+    var abi = [{"constant":false,"inputs":[],"name":"contractDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address"},{"name":"count","type":"uint256"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"returnState","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"goods","type":"uint256"}],"name":"pay","outputs":[{"name":"","type":"uint256"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"warrAmount","type":"uint256"}],"name":"warranty","outputs":[{"name":"","type":"bool"}],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"checkBalance","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"payable":true,"type":"fallback"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
+    var web3 = new Web3();
  
     
 
      web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
      var accounts = web3.eth.accounts;
      $scope.accounts = accounts;
-
-     var contractAddress = "0xb4a874d01c1234be5cd6b2a562b06892ed5d500c";
+     //0x41d4c8178ff0fad76a86fef2188672ac7f8d54f2 (blockchain) - doubleKey
+     var contractAddress = "0x5c41628787a20780547bddb64c2fc12429115e7c";
      var contract;
  
      $scope.myToken = accounts[0];
@@ -32,31 +33,37 @@ app.controller('smartDealsController',function($scope,$mdDialog){
      
      contract = web3.eth.contract(abi).at(contractAddress);
 
-     $scope.testMethod = function(){
+     $scope.testMethod = function(){      
           
-          var bal = web3.fromWei(web3.eth.getBalance('0xb4a874d01c1234be5cd6b2a562b06892ed5d500c'));
-
-        alert(bal);
+          //var bal = web3.fromWei(web3.eth.getBalance('0x762b3b06026b61f6e23b5d7355fc42421697a5cc '));
+         var bal1 = contract.checkBalance.call();
+         alert(contract.address + "\n" + bal1);
 
      };
 
      $scope.initProviders = function(providersAddresses,providersAmount){
-      alert(providersAddresses);       
-      contract.init(providersAddresses,providersAmount,$scope.myToken).call();
-
+       web3.personal.unlockAccount($scope.myToken,"qbasik007");
+            
+      contract.init.sendTransaction(providersAddresses,providersAmount,$scope.myToken,{from: web3.eth.coinbase});
+      alert(providersAddresses); 
      }; 
-     $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
+     $scope.pay = function(amountOfMoney,ingridientAmount){
       web3.personal.unlockAccount($scope.myToken,"qbasik007");
         var hash = {from: $scope.myToken,to: contractAddress,value: web3.toWei(amountOfMoney, "ether")};
-        
-       // web3.eth.sendTransaction(hash);        
-        var res = contract.pay(amountOfMoney,providerAddress,ingridientAmount).call();;
-        alert(1234);  
+          
+        var res = web3.eth.sendTransaction({from: web3.eth.coinbase, to: contractAddress, value: web3.toWei(2,'ether')});          
+        contract.pay.sendTransaction(ingridientAmount,{from: web3.eth.coinbase});
+        alert(web3.fromWei(res,'ether'));  
      };
      $scope.contractDone = function(){
-        web3.personal.unlockAccount($scope.myToken,"qbasik007");
-       var res = contract.contractDone.call();
-         alert(res); 
+          web3.personal.unlockAccount($scope.myToken,"qbasik007");
+          var res = contract.contractNotDone.sendTransaction({from: web3.eth.coinbase});
+          alert(res); 
+     }; 
+      $scope.warranty = function(amount){
+         
+          var res = contract.warranty.call(amount);
+          alert(res); 
      }; 
 
 
