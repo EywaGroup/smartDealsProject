@@ -1,4 +1,4 @@
-(function(){
+(function(){ 
 var app = angular.module('smartDeals', ['ngMaterial','ngMessages']);
 
 app.config(function($mdThemingProvider) {
@@ -8,7 +8,7 @@ app.config(function($mdThemingProvider) {
   $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
 });
 app.controller('smartDealsController',function($scope,$mdDialog){
-  
+ 
   this.pizzas = pizzas;
   var variable;
 
@@ -18,8 +18,8 @@ app.controller('smartDealsController',function($scope,$mdDialog){
      var abi =  [{"constant":false,"inputs":[{"name":"amount","type":"uint256"},{"name":"addr","type":"address"},{"name":"goods","type":"uint256"}],"name":"pay","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractDone","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"tmpAddr","type":"address"}],"name":"search","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address[]"},{"name":"provCount","type":"uint256"},{"name":"mainAcc","type":"address"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
      var Web3 = require('web3');
      var web3 = new Web3();
-     
-
+ 
+     alert("41200");
      web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
      var accounts = web3.eth.accounts;
      $scope.accounts = accounts;
