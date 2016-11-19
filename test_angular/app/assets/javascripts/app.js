@@ -36,12 +36,18 @@ app.controller('smartDealsController',function($scope,$mdDialog){
       $scope.mess = "pizza";
       $scope.tab1tittle = pizza.name;
       $scope.ingridients = pizza.ingridients;
+
       var total = 0;
       for (var i = pizza.ingridients.length - 1; i >= 0; i--) {
         total += pizza.ingridients[i].cost;
       }
       var coefficient = 3;
+      var ethCoeff = 613;
+      
+      $scope.ethCoeff = ethCoeff;
+      $scope.totalEth = total / ethCoeff;
       total *= coefficient;
+      
       pizza.price = total;
       $scope.total = total;
 
