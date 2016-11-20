@@ -10,123 +10,315 @@ app.config(function($mdThemingProvider) {
 
 app.controller('smartDealsController',function($scope,$mdDialog){
  
-  this.pizzas = pizzas;
-    var variable;
-    var abi = [{"constant":false,"inputs":[{"name":"amount","type":"uint256"},{"name":"addr","type":"address"},{"name":"goods","type":"uint256"}],"name":"pay","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"tmpAddr","type":"address"}],"name":"search","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address[]"},{"name":"provCount","type":"uint256"},{"name":"mainAcc","type":"address"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
-     var Web3 = require('web3');
-     var web3 = new Web3();
- 
-    
+  $scope.company1 ;
+  $scope.company2 ;
+  $scope.address1 ;
+  $scope.address2 ;
+  $scope.volume;
+  $scope.date;
+  $scope.cost;
+  $scope.warrantyLimit;
 
-     web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
-     var accounts = web3.eth.accounts;
-     $scope.accounts = accounts;
+  $scope.contracts= [];
 
-     var contractAddress = "0xb4a874d01c1234be5cd6b2a562b06892ed5d500c";
-     var contract;
- 
-     $scope.myToken = accounts[0];
-     $scope.myFunds = web3.fromWei(web3.eth.getBalance(web3.eth.coinbase),"ether");
-     
-      
-     
-     contract = web3.eth.contract(abi).at(contractAddress);
+  $scope.addContract = function(name1, type1, company1_1, company2_1, 
+    address1_1, address2_1, volume_1, date_1, cost_1, warrantyLimit_1) {
 
-     $scope.testMethod = function(){
-          
-          var bal = web3.fromWei(web3.eth.getBalance('0xb4a874d01c1234be5cd6b2a562b06892ed5d500c'));
-
-        alert(bal);
-
-     };
-
-     $scope.initProviders = function(providersAddresses,providersAmount){
-      alert(providersAddresses);       
-      contract.init(providersAddresses,providersAmount,$scope.myToken).call();
-
-     }; 
-     $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
-      web3.personal.unlockAccount($scope.myToken,"qbasik007");
-        var hash = {from: $scope.myToken,to: contractAddress,value: web3.toWei(amountOfMoney, "ether")};
-        
-       // web3.eth.sendTransaction(hash);        
-        var res = contract.pay(amountOfMoney,providerAddress,ingridientAmount).call();;
-        alert(1234);  
-     };
-     $scope.contractDone = function(){
-        web3.personal.unlockAccount($scope.myToken,"qbasik007");
-       var res = contract.contractDone.call();
-         alert(res); 
-     }; 
-
-
-
- 
-
-  $scope.showAdvanced = function(ev, pizza) {
-
-    $mdDialog.show({
-        controller: function DialogController($scope, $mdDialog) {
-          $scope.hide = function() {
-          $mdDialog.hide();
-      };
-
-      $scope.cancel = function() {
-        $mdDialog.cancel();
-      };
-
-      $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-      };
-
-      
-      $scope.pizza = pizza;
-      $scope.mess = "pizza";
-      $scope.tab1tittle = pizza.name;
-      $scope.ingridients = pizza.ingridients;
-
-      var total = 0;
-      for (var i = pizza.ingridients.length - 1; i >= 0; i--) {
-        total += pizza.ingridients[i].cost;
-      }
-      var coefficient = 3;
-      var ethCoeff = 613;
-      
-      $scope.ethCoeff = ethCoeff;
-      $scope.totalEth = total / ethCoeff;
-      total *= coefficient;
-      
-      pizza.price = total;
-      $scope.total = total;
-
-      $scope.payAll = function(){
-       
-        for(var i = 0; i < pizza.ingridients.length; i ++){
-            var ingridient = pizza.ingridients[i];
-            $scope.pay(ingridient.cost, ingridient.provider, ingridient.name);
-        }
-      };
-          
-      $scope.pay = function(cost, provider, name){
-          
-      };
-    },
-
-      templateUrl: 'solution_controller/index',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:true,
-      fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
-    }).then(function(answer) {
-      $scope.status = 'You said the information was "' + answer + '".';
-    }, function() {
-      $scope.status = 'You cancelled the dialog.';
+    $scope.contracts.push({
+      name: name1,
+      type: type1,
+      company1: company1_1,
+      company2: company2_1,
+      address1: address1_1,
+      address2: address2_1,
+      volume: volume_1,
+      date: date_1,
+      cost: cost_1,
+      warrantyLimit: warrantyLimit_1
     });
+  }
+  
+  $scope.showContract = function(contract){
+    var url = contract.type + "_contract/index";
+    if (contract.type != "warranty"){
+      url = "double_key_contract/index";
+    }
+    alert(url);
+    $scope.showDialogByUrl($event, contract, url);
+  }
+
+  $scope.createContract = function(){
+    alert($scope.cost);
   };
 
+  this.pizzas = pizzas;
+  $scope.pizzas = pizzas;
+  var variable;
+  var abi = [{"constant":false,"inputs":[{"name":"amount","type":"uint256"},{"name":"addr","type":"address"},{"name":"goods","type":"uint256"}],"name":"pay","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"contractDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[],"name":"contractNotDone","outputs":[{"name":"","type":"bool"}],"payable":true,"type":"function"},{"constant":false,"inputs":[{"name":"tmpAddr","type":"address"}],"name":"search","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"provAddrs","type":"address[]"},{"name":"provCount","type":"uint256"},{"name":"mainAcc","type":"address"}],"name":"init","outputs":[],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"sender","type":"address"},{"indexed":false,"name":"_provAddress","type":"address"},{"indexed":false,"name":"_value","type":"uint256"}],"name":"Deposit","type":"event"}];
+  /*  var Web3 = require('web3');
+    var web3 = new Web3();
 
+    web3.setProvider(new web3.providers.HttpProvider("http://127.0.0.1:8545"));
+    var accounts = web3.eth.accounts;
+    $scope.accounts = accounts;
 
+    var contractAddress = "0xb4a874d01c1234be5cd6b2a562b06892ed5d500c";
+    var contract;
+
+    $scope.myToken = accounts[0];
+    //$scope.myFunds = web3.fromWei(web3.eth.getBalance(web3.eth.coinbase),"ether");
+
+    //contract = web3.eth.contract(abi).at(contractAddress);
+  */
+    $scope.testMethod = function(){
+        
+        var bal = web3.fromWei(web3.eth.getBalance('0xb4a874d01c1234be5cd6b2a562b06892ed5d500c'));
+
+      alert(bal);
+
+    };
+
+    $scope.initProviders = function(providersAddresses,providersAmount){
+    alert(providersAddresses);       
+    contract.init(providersAddresses,providersAmount,$scope.myToken).call();
+
+    }; 
+    $scope.pay = function(amountOfMoney,providerAddress,ingridientAmount){
+    web3.personal.unlockAccount($scope.myToken,"qbasik007");
+      var hash = {from: $scope.myToken,to: contractAddress,value: web3.toWei(amountOfMoney, "ether")};
+      
+     // web3.eth.sendTransaction(hash);        
+      var res = contract.pay(amountOfMoney,providerAddress,ingridientAmount).call();;
+      alert(1234);  
+    };
+    $scope.contractDone = function(){
+      web3.personal.unlockAccount($scope.myToken,"qbasik007");
+      var res = contract.contractDone.call();
+      alert(res); 
+    }; 
+
+    $scope.showAdvanced = function(ev, pizza) {
+
+      $mdDialog.show({
+        controller: function DialogController($scope, $mdDialog) {
+          $scope.hide = function() {
+              $mdDialog.hide();
+          };
+
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+
+          $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+          };
+         
+          $scope.pizza = pizza;
+          $scope.mess = "pizza";
+          $scope.tab1tittle = pizza.name;
+          $scope.ingridients = pizza.ingridients;
+
+          var total = 0;
+          for (var i = pizza.ingridients.length - 1; i >= 0; i--) {
+            total += pizza.ingridients[i].cost;
+          }
+          var coefficient = 3;
+          var ethCoeff = 613;
+          
+          $scope.ethCoeff = ethCoeff;
+          $scope.totalEth = total / ethCoeff;
+          total *= coefficient;
+          
+          pizza.price = total;
+          $scope.total = total;
+
+          $scope.payAll = function(){
+           
+            for(var i = 0; i < pizza.ingridients.length; i ++){
+                var ingridient = pizza.ingridients[i];
+                $scope.pay(ingridient.cost, ingridient.provider, ingridient.name);
+            }
+          };
+              
+          $scope.pay = function(cost, provider, name){
+              
+          };
+        },
+
+        templateUrl: 'solution_controller/index',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+      }).then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+    };
+
+    $scope.showAdvanced2 = function(ev, pizza) {
+
+      $mdDialog.show({
+        controller: function DialogController($scope, $mdDialog) {
+          $scope.hide = function() {
+              $mdDialog.hide();
+          };
+
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+
+          $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+          };
+         
+          $scope.pizza = pizza;
+          $scope.mess = "pizza";
+          $scope.tab1tittle = pizza.name;
+          $scope.ingridients = pizza.ingridients;
+
+          var total = 0;
+          for (var i = pizza.ingridients.length - 1; i >= 0; i--) {
+            total += pizza.ingridients[i].cost;
+          }
+          var coefficient = 3;
+          var ethCoeff = 613;
+          
+          $scope.ethCoeff = ethCoeff;
+          $scope.totalEth = total / ethCoeff;
+          total *= coefficient;
+          
+          pizza.price = total;
+          $scope.total = total;
+
+          $scope.payAll = function(){
+           
+            for(var i = 0; i < pizza.ingridients.length; i ++){
+                var ingridient = pizza.ingridients[i];
+                $scope.pay(ingridient.cost, ingridient.provider, ingridient.name);
+            }
+          };
+              
+          $scope.pay = function(cost, provider, name){
+              
+          };
+        },
+
+        templateUrl: 'first_contract/index',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+      }).then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+    };
+
+    $scope.showAdvanced3 = function(ev, pizza, url) {
+
+      $mdDialog.show({
+        controller: function DialogController($scope, $mdDialog) {
+          $scope.hide = function() {
+              $mdDialog.hide();
+          };
+
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+
+          $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+          };
+          alert(url);
+          $scope.pizza = pizza;
+          $scope.mess = "pizza";
+          $scope.tab1tittle = pizza.name;
+          $scope.ingridients = pizza.ingridients;
+
+          var total = 0;
+          for (var i = pizza.ingridients.length - 1; i >= 0; i--) {
+            total += pizza.ingridients[i].cost;
+          }
+          var coefficient = 3;
+          var ethCoeff = 613;
+          
+          $scope.ethCoeff = ethCoeff;
+          $scope.totalEth = total / ethCoeff;
+          total *= coefficient;
+          
+          pizza.price = total;
+          $scope.total = total;
+
+          $scope.payAll = function(){
+           
+            for(var i = 0; i < pizza.ingridients.length; i ++){
+                var ingridient = pizza.ingridients[i];
+                $scope.pay(ingridient.cost, ingridient.provider, ingridient.name);
+            }
+          };
+              
+          $scope.pay = function(cost, provider, name){
+              
+          };
+        },
+
+        templateUrl: url,
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+      }).then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+    };
+
+    $scope.showDialogByUrl = function(ev, contract, url) {
+      $mdDialog.show({
+        controller: function DialogController($scope, $mdDialog) {
+          $scope.hide = function() {
+              $mdDialog.hide();
+          };
+
+          $scope.cancel = function() {
+            $mdDialog.cancel();
+          };
+
+          $scope.answer = function(answer) {
+            $mdDialog.hide(answer);
+          };
+
+          contract.moneyInContract = 6999;
+          contract.progress = contract.moneyInContract * 100 / contract.cost;
+          contract.contractDone = false;
+          
+          if (contract.type != "warranty"){
+            contract.warrantyPayed = contract.moneyInContract >= contract.warrantyLimit;
+          } else {
+            contract.customerConfirmed = false;
+            contract.providerConfirmed = false;
+          }
+          
+          $scope.currentContract = contract;
+          
+        },
+        templateUrl: url,
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+      }).then(function(answer) {
+        $scope.status = 'You said the information was "' + answer + '".';
+      }, function() {
+        $scope.status = 'You cancelled the dialog.';
+      });
+    };
 });
+   
     var pizzas = [
       {
         name: 'Vegetariana',

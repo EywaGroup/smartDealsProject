@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  get 'double_key_contract/index'
+
+  get 'warranty_contract/index'
+
+  get 'second_contract/index'
+
+  get 'first_contract/index'
+
   get 'solution_controller/index'
 
   root 'test_conroller#index'

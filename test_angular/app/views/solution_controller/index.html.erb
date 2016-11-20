@@ -1,6 +1,7 @@
-<div ng-app = "smartDeals" ng-controller = "smartDealsController as controller" >
-  <md-dialog aria-label="Mango (Fruit)" >
+<div>
+  <md-dialog aria-label="Mango (Fruit)" style="width:600px;height:600px;">
     <form>
+
       <md-toolbar>
         <div class="md-toolbar-tools">
           <h2>Info</h2>
@@ -10,14 +11,25 @@
           </md-button>
         </div>
       </md-toolbar>
-      <md-dialog-content style="width:600px;max-height:400px;" >
+
+      <md-dialog-content style="max-height:550px;" >
         <md-tabs md-dynamic-height md-border-bottom>
           <md-tab label="Total">
             <md-content class="md-padding">
               <h1 class="md-display-2" >{{tab1tittle}}</h1>
-              <p>Total price: {{total | currency:"RUB &#8381; "}}</p>
+              
+              <md-input-container class="md-block" flex-gt-sm>
+                <label>Name</label>
+                <input md-maxlength="30" required name="name" ng-model="user.name" />
 
-              <table>
+                <div class="hint" ng-if="true">Tell us what we should call you!</div>
+
+                <div ng-messages="userForm.name.$error" ng-if="!showHints">
+                  <div ng-message="required">Name is required.</div>
+                  <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+                </div>
+              </md-input-container>
+              <table class="highlight centered">
                 <thead>
                   <tr>
                       <th>Name</th>
@@ -34,13 +46,13 @@
                   </tr>
                 </tbody>
               </table>
-            
+              <p class="blue-text">Total price: {{total | currency:"RUB &#8381; "}}</p>
             </md-content>
           </md-tab>
           <md-tab label="Contract 1">
             <md-content class="md-padding">
              
-              <table>
+              <table class="highlight centered">
                 <thead>
                   <tr>
                       <th>Name</th>
@@ -59,7 +71,7 @@
                 </tbody>
               </table>
               <hr>
-              <p>Total price: {{totalEth | currency:"ETH &Xi; " : 7}}</p>
+              <p class="blue-text">Total price: {{totalEth | currency:"ETH &Xi; " : 7}}</p>
               <md-button ng-click="payAll()" style="margin-right:20px;" >
                 pay All Providers
               </md-button>
