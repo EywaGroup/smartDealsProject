@@ -31,34 +31,6 @@ margin-left: -560px; /* Отрицательный отступ от левог�
 
 
 <body ng-app = "smartDeals" ng-controller = "smartDealsController as controller" >
-<div class = "text">
-
-	<md-card md-theme="{{ 'dark-grey'}}">
-<h1>Pizza Exemple</h1> <md-button ng-click="testMethod()">TEST</md-button>
-<md-button ng-click="initProviders('0x199fdf564df1d18056ed46724582502fd3ce580a',1)">INIT</md-button>
-<md-button ng-click="pay(1,'0x199fdf564df1d18056ed46724582502fd3ce580a',10)">PAY</md-button>
-<md-button ng-click="contractDone()">DONE</md-button> 
-<md-button ng-click="warranty(2)">Warranty</md-button> 
-</md-card>
-	<div class='md-padding' layout="row" layout-wrap>
-	    <md-card md-theme="{{ 'dark-grey'}}" style="width: 350px;" ng-repeat="pizza in controller.pizzas">
-            <md-card>
-                <img ng-src="{{pizza.image}}" class="md-card-image" alt="image caption" >
-            </md-card>
-            
-            <md-card-content>
-            <h2>{{pizza.name}}</h2>
-            		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-            </md-card-content>
-
-            <div class="md-actions" layout="row" layout-align="end center">
-            	<md-button id="{{pizza.id}}" class="md-primary md-raised" ng-click="showAdvanced($event, pizza)" flex="100" flex-gt-md="auto">{{pizza.id}}
-               </md-button>
-            </div>
-
-	    </md-card>
-	  </div>
-</div>
 
 <%=yield%>
 

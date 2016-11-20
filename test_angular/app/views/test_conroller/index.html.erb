@@ -1,0 +1,86 @@
+<div class = "text">
+    
+    <md-card md-theme="{{'dark-grey'}}">
+
+      <h1>Pizza Exemple</h1> 
+    
+
+    </md-card>
+      
+    <div class='md-padding' layout="row" layout-wrap>
+      <md-card md-theme="{{ 'dark-grey'}}" style="width: 350px;">
+        <md-card>
+            <img ng-src="" class="md-card-image" alt="image caption" >
+        </md-card>
+
+        <md-card-content>
+            <h2>Form</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+        </md-card-content>
+
+        <div class="md-actions" layout="row" layout-align="end center" >
+          <md-button class="md-primary md-raised" ng-click="showAdvanced($event, pizzas[0])" flex="100" flex-gt-md="auto">create new
+           </md-button>
+        </div>
+
+      </md-card>
+
+      <md-card md-theme="{{ 'dark-grey'}}" style="width: 350px;">
+        <md-card>
+            <img ng-src="" class="md-card-image" alt="image caption" >
+        </md-card>
+
+        <md-card-content>
+            <h2>Form2</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+        </md-card-content>
+
+        <div class="md-actions" layout="row" layout-align="end center" >
+          <md-button class="md-primary md-raised" ng-click="showAdvanced2($event, pizzas[1])" flex="100" flex-gt-md="auto">create new
+           </md-button>
+        </div>
+
+      </md-card>
+
+      <md-card md-theme="{{ 'dark-grey'}}" style="width: 350px;">
+        <md-card>
+            <img ng-src="" class="md-card-image" alt="image caption" >
+        </md-card>
+
+        <md-card-content>
+            <h2>Form3</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+        </md-card-content>
+
+        <div class="md-actions" layout="row" layout-align="end center" >
+          <md-button class="md-primary md-raised" ng-click="showAdvanced3($event, pizzas[2])" flex="100" flex-gt-md="auto">create new
+           </md-button>
+        </div>
+
+      </md-card>
+    </div>
+
+    <md-button class="md-primary md-raised" ng-click="addNew('contract1', 'double_key' , 'company1_1', 'company2_1', 
+    'address1_1', 'address2_1', 787, '22.10.2016', '10000', '1000')" flex="100" flex-gt-md="auto">create new
+           </md-button>
+    <md-button class="md-primary md-raised" ng-click="addNew('contract2', 'warranty' , 'company1_1', 'company2_1', 
+    'address1_1', 'address2_1', 787, '22.10.2016', '10000', null)" flex="100" flex-gt-md="auto">create new
+           </md-button>
+    <md-content>
+      <md-list>
+        <md-list-item class="md-3-line" ng-repeat="contract in contracts">
+          <div class="md-list-item-text">
+            <h3>{{contract.name}}</h3>
+            
+            <p>{{contract.type}}</p>
+          </div>
+          <md-button ng-click="showDialogByUrl($event, contract, contract.type + '_contract/index')" class="md-secondary">Respond</md-button>
+          <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+      </md-list>
+    </md-content>            
+            
+
+  </div>
+ 
+
