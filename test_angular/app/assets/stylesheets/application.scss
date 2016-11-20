@@ -1,0 +1,52 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+ @import "materialize";
+ @import "materialize/components/color";
+ body {
+
+ background: url(4.jpg) no-repeat;
+ background-attachment:fixed;
+ background-position: center;
+ 
+}
+.text {
+    top: 50%; /* Отступ в процентах от верхнего края окна */
+    left: 50%; /* Отступ в процентах от левого края окна */
+    width: 1160px; /* Ширина блока */
+    height: 450px; /* Высота блока */
+    position: absolute; /* Абсолютное позиционирование блока */
+    margin-top: -300px; /* Отрицательный отступ от верхнего края страницы, должен равняться половине высоты блока со знаком минус */
+    margin-left: -560px; /* Отрицательный отступ от левого края страницы, должен равняться половине высоты блока со знаком минус */
+  }
+.myMargin {
+    margin-top: 30px;
+}
+.myStyle {
+    color: #1a237e;
+    
+}
+.myText {
+    color: #311b92;
+    text-align: right;
+}
+
+.true{
+    color: d50000;
+}
+
+.false{
+    color: 64dd17;
+}

@@ -1,0 +1,2 @@
+module SecondContractHelper
+end

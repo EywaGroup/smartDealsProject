@@ -299,7 +299,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
           if (contract.type != "warranty"){
             contract.warrantyPayed = contract.moneyInContract >= contract.warrantyLimit;
           } else {
-            contract.customerConfirmed = false;
+            contract.customerConfirmed = 1;
             contract.providerConfirmed = false;
           }
           
