@@ -295,12 +295,20 @@ app.controller('smartDealsController',function($scope,$mdDialog){
           contract.moneyInContract = 6999;
           contract.progress = contract.moneyInContract * 100 / contract.cost;
           contract.contractDone = false;
-          
+          contract.warrantyPayed = false;
+          contract.customerConfirmed = false;
+          contract.providerConfirmed = false;
+          contract.done = false;
+
           if (contract.type != "warranty"){
-            contract.warrantyPayed = contract.moneyInContract >= contract.warrantyLimit;
-          } else {
-            contract.customerConfirmed = 1;
+            contract.customerConfirmed = true;
             contract.providerConfirmed = false;
+          } else {
+            
+
+            contract.warrantyPayed = contract.moneyInContract >= contract.warrantyLimit;
+
+            
           }
           
           $scope.currentContract = contract;

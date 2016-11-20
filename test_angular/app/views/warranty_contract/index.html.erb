@@ -55,12 +55,12 @@
 
                 <div class="row ">
                   <div class="col m4 myStyle">Warranty limit:  {{currentContract.warrantyLimit}}</div>               
-                  <div class="col m4 offset-m4 "><i class="small material-icons">{{currentContract.warrantyPayed ? "done" : "clear"}}</i></div>               
+                  <div class="col m4 offset-m4 "><i class="small material-icons {{currentContract.warrantyPayed + 'X'}}">{{currentContract.warrantyPayed ? "done" : "clear"}}</i></div>               
                 </div>
 
                 <div class="row ">
                   <div class="col m4 myStyle">Contract is done:</div>               
-                  <div class="col m4 offset-m4 "><i class="small material-icons">{{currentContract.done ? "done" : "clear"}}</i></div>               
+                  <div class="col m4 offset-m4 "><i class="small material-icons {{currentContract.done + 'X'}}">{{currentContract.done ? "done" : "clear"}}</i></div>               
                 </div>
               </div>
             </md-content>

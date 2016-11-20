@@ -57,16 +57,16 @@
                 <div class="row ">
                   
                   <div class="col m2 myStyle">Customer confirmed:</div>               
-                  <div class="col m2 offset-m2 "><i class="small material-icons {{currentContract.customerConfirmed + 't'}}">{{currentContract.customerConfirmed == 1 ? "done" : "clear"}}</i></div>   
+                  <div class="col m2 offset-m2 "><i class="small material-icons {{currentContract.customerConfirmed + 'X'}}">{{currentContract.customerConfirmed == 1 ? "done" : "clear"}}</i></div>   
 
                   <div class="col m2 myStyle">Provider confirmed:</div>               
-                  <div class="col m2 offset-m2 "><i class="small material-icons {{currentContract.providerConfirmed + ''}}">{{currentContract.providerConfirmed ? "done" : "clear"}}</i></div>  
+                  <div class="col m2 offset-m2 "><i class="small material-icons {{currentContract.providerConfirmed + 'X'}}">{{currentContract.providerConfirmed ? "done" : "clear"}}</i></div>  
 
                 </div>
 
                 <div class="row ">
                   <div class="col m4 myStyle">Contract is done:</div>               
-                  <div class="col m4 offset-m4 "><i class="small material-icons {{currentContract.done}}">{{currentContract.done ? "done" : "clear"}}</i></div>               
+                  <div class="col m4 offset-m4 "><i class="small material-icons {{currentContract.done + 'X'}}">{{currentContract.done ? "done" : "clear"}}</i></div>               
                 </div>
 
               </div>
