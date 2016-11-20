@@ -1,0 +1,75 @@
+pragma solidity ^0.4.0;
+contract SmartDeal {
+struct Provider{
+    uint goodsAmount;
+    uint profit;
+    address addr;
+}
+
+function() payable
+{
+     clientAddr = msg.sender;
+     amnt = msg.value;
+}
+
+Provider[] providers;
+uint provCount = 0;
+uint totalPay;
+address clientAddr;
+uint[] provRelations;
+uint amnt = 0;
+mapping(address => uint) refunds;
+
+event Deposit(address sender,address _provAddress, uint _value);
+
+function init(address provAddrs, uint count)
+{
+        providers[provCount].profit = 0;
+        providers[provCount].addr = provAddrs;
+        provCount++;
+}
+
+
+function pay( address addr,uint goods) payable returns(uint)
+{
+    providers[search(addr)].profit += msg.value;
+    providers[search(addr)].goodsAmount += goods;
+    totalPay += msg.value;
+    Deposit(clientAddr,addr,msg.value);
+    return providers[search(addr)].profit;
+}
+
+function checkBalance() returns (uint)
+{
+    return this.balance;
+}
+
+function search(address tmpAddr) returns(uint)
+{
+    for(uint i = 0;i<provCount;i++)
+    {
+        if(providers[i].addr == tmpAddr) return i;
+    }
+}
+
+function contractDone() payable returns(bool)
+{
+    bool a = true;
+    bool b;
+    for(uint i = 0;i<provCount;i++)
+    {
+      b = providers[i].addr.send(providers[i].profit);
+      a = a && b;
+    }
+    return a;
+}
+
+function contractNotDone() payable returns(bool)
+{
+  bool a = msg.sender.send(amnt);
+  return a;
+}
+
+
+    
+}
