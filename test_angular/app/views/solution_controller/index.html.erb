@@ -22,37 +22,37 @@
               <md-input-container class="md-block" flex-gt-sm>
 
                 <label>NameFirst</label>
-                <input md-maxlength="30" required name="name1" ng-model="NameFirst" />
+                <input md-maxlength="30" required name="name1" ng-model="newContract.NameFirst" />
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>NameSecond</label>
-                <input md-maxlength="30" required name="name2" ng-model="NameSecond" />
+                <input md-maxlength="30" required name="name2" ng-model="newContract.NameSecond" />
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>AddresOne</label>
-                <input md-maxlength="30" required name="adress1" ng-model="AddressOne" />
+                <input md-maxlength="30" required name="adress1" ng-model="newContract.AddressOne" />
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>AdresTwo</label>
-                <input md-maxlength="30" required name="adress2" ng-model="AdressTwo" />
+                <input md-maxlength="30" required name="adress2" ng-model="newContract.AdressTwo" />
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Volume</label>
-                <input md-maxlength="30" required name="volume" ng-model="Volume" />
+                <input md-maxlength="30" required name="volume" ng-model="newContract.Volume" />
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Time</label>
-                <input md-maxlength="30" required name="time" ng-model="Time" />
+                <input md-maxlength="30" required name="time" ng-model="newContract.Time" />
               </md-input-container>
 
               <md-input-container class="md-block" flex-gt-sm>
                 <label>Cost</label>
-                <input md-maxlength="30" required name="cost" ng-model="Cost" />
+                <input md-maxlength="30" required name="cost" ng-model="newContract.Cost" />
               </md-input-container>
 
   
@@ -64,12 +64,6 @@
               <h1 class="md-display-2">Tab Two</h1>
             </md-content>
           </md-tab>
-          <md-tab label="three">
-            <md-content class="md-padding">
-              <h1 class="md-display-2">Tab Three</h1>
-              <p >Integer turpis erat, porttitor vitae mi faucibus, laoreet interdum tellus. Curabitur posuere molestie dictum. Morbi eget congue risus, quis rhoncus quam. Suspendisse vitae hendrerit erat, at posuere mi. Cras eu fermentum nunc. Sed id ante eu orci commodo volutpat non ac est. Praesent ligula diam, congue eu enim scelerisque, finibus commodo lectus.</p>
-            </md-content>
-          </md-tab>
         </md-tabs>
       </md-dialog-content>
 
@@ -78,7 +72,7 @@
         <md-button ng-click="cancel()" style="margin-right:20px;" >
           Cancel
         </md-button>
-        <md-button class="md-primary md-raised" ng-click="deploy('answer')" >
+        <md-button class="md-primary md-raised" ng-click="deploy(newContract.AddressTwo,newContract.Cost)" >
           Confirm
         </md-button>
       </md-dialog-actions>
