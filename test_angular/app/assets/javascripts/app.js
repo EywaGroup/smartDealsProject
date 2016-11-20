@@ -60,7 +60,7 @@ app.controller('smartDealsController',function($scope,$mdDialog){
               console.log("Contract mined! Address: " + contract.address);
               console.log(contract);
               console.log(address);
-              contract.init.sendTransaction(web3.toHex('0x9b423036f2324445ab650b4ef883d0d6ede53ca3'),1,{from: $scope.myToken});
+              contract.init.sendTransaction(web3.toHex(address),count,{from: $scope.myToken});
               console.log(contract.checkBalance());
               $mdDialog.hide();
             }
