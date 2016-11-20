@@ -35,6 +35,8 @@ app.controller('smartDealsController',function($scope,$mdDialog){
     // $scope.Volume
     // $scope.Time
     // $scope.Cost
+    var addres = '0x9b423036f2324445ab650b4ef883d0d6ede53ca3';
+    var c = 1;
     var contractName = 'SmartDealDoubleKey';
      var source ='contract SmartDealDoubleKey { struct Provider { uint goodsAmount; address addr; } address owner; Provider provider; uint provCount = 0; uint amnt = 0; bool custConfirmed = false; bool providerConfirmed = false; event Deposit(address sender,address _provAddress, uint _value); modifier confirmed { if(!(custConfirmed && providerConfirmed)) throw; _; } modifier onlyProvider { if(msg.sender != owner) throw; _; } modifier onlyCustomer { if(msg.sender != provider.addr) throw; _; } function customerConfirm() onlyCustomer { custConfirmed = true; } function providerConfirm() onlyProvider { providerConfirmed = true; } function() payable  { owner = msg.sender; amnt += msg.value; } function warranty(uint warrAmount) returns(bool) { if (amnt>=warrAmount) return true; else return false; } function returnState() returns(uint) { return amnt; } function init(address provAddrs, uint count)  { owner = msg.sender; provider.addr = provAddrs; provCount++;} function pay(uint goods) onlyCustomer payable returns(uint) { provider.goodsAmount += goods;} function checkBalance() returns (uint) { return this.balance; } function contractDone() confirmed payable returns(bool) { bool a = provider.addr.send(amnt); selfdestruct(msg.sender); return a;} function contractNotDone()confirmed payable {selfdestruct(msg.sender);}}';
      var compiled = web3.eth.compile.solidity(source);
@@ -58,10 +60,11 @@ app.controller('smartDealsController',function($scope,$mdDialog){
               console.log("Sended, please wait. Transaction: " +  contract.transactionHash);
             } else {
               console.log("Contract mined! Address: " + contract.address);
-              console.log(contract);
               console.log(address);
-              contract.init.sendTransaction(web3.toHex(address),count,{from: $scope.myToken});
-              console.log(contract.checkBalance());
+              contract.init.sendTransaction(addres, web3.toDecimal(c),{from:$scope.myToken});
+              console.log(JSON.stringify(contract.checkBalance.call()));
+              console.log(JSON.stringify(contract.pay.sendTransaction(web3.toDecimal(2), {from: $scope.myToken})));
+              console.log(JSON.stringify(contract.contractDone.sendTransaction({from: $scope.myToken})));
               $mdDialog.hide();
             }
           } else {
